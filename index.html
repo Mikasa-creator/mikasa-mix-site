@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歌ってみたMIX 料金表 - Mikasa Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+    <style>
+        @charset "UTF-8";
+
+        :root {
+            --ease-out-quint: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-in-out-sine: cubic-bezier(0.37, 0, 0.63, 1);
+        }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background-color: #0c0c1f;
+            color: #f3f4f6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .title-font {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+        }
+        .gradient-text {
+            background: linear-gradient(to right, #a855f7, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card {
+            background-color: #18153f;
+            border: 1px solid #312e6b;
+            transition: transform 0.6s var(--ease-out-quint), box-shadow 0.6s var(--ease-out-quint);
+            border-radius: 1.25rem;
+            will-change: transform, box-shadow;
+        }
+        .card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.6);
+        }
+        .btn-primary {
+            background: linear-gradient(to right, #8b5cf6, #ec4899);
+            color: white;
+            transition: all 0.5s var(--ease-out-quint);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.3);
+            border-radius: 0.625rem;
+            font-weight: 500;
+            padding: 0.875rem 2.25rem;
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+        .section-title {
+            border-bottom: 3px solid #ec4899;
+            padding-bottom: 0.875rem;
+            display: inline-block;
+            font-weight: 700;
+            font-size: 2.5rem;
+        }
+        @media (min-width: 768px) {
+            .section-title {
+                font-size: 3rem;
+            }
+        }
+        .center-section-title-wrapper {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        /* オプション料金アコーディオン スタイル */
+        .option-accordion-item {
+            background-color: #1f1c4b;
+            border-radius: 1rem;
+            margin-bottom: 1.25rem;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+            border: 1px solid #3a367a;
+        }
+        .option-accordion-button {
+            width: 100%;
+            text-align: left;
+            padding: 1.5rem 2rem;
+            background: linear-gradient(to right, #2a2664, #221e55);
+            color: #fafafa;
+            font-size: 1.125rem; /* 18px */
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 1rem;
+            transition: background-color 0.5s var(--ease-out-quint);
+        }
+        .option-accordion-button:hover {
+            background: linear-gradient(to right, #36317d, #2a2664);
+        }
+        .option-title-container {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .option-title-container i.fas,
+        .option-title-container i.fab {
+            color: #f472b6;
+            margin-right: 1rem;
+            font-size: 1.3em;
+            line-height: 1;
+            width: 1.5em;
+            text-align: center;
+        }
+        .option-price-display {
+            font-weight: 600;
+            color: #c4b5fd;
+            margin-left: 1rem;
+            white-space: nowrap;
+        }
+        .option-accordion-button .icon {
+            transition: transform 0.5s var(--ease-out-quint);
+            font-size: 1.3rem;
+            color: #e5e7eb;
+            margin-left: 1rem;
+        }
+        .option-accordion-button.active .icon {
+            transform: rotate(180deg);
+        }
+        .option-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s var(--ease-in-out-sine), padding 0.6s var(--ease-in-out-sine);
+            background-color: #131133;
+            border-bottom-left-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            color: #e5e7eb;
+        }
+        .option-accordion-content p {
+            padding: 1.75rem 2rem;
+            font-size: 1rem;
+            line-height: 1.75;
+            font-weight: 300;
+        }
+
+        /* 注意事項アコーディオン */
+        .notes-accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.6s var(--ease-in-out-sine);
+            background-color: #18153f;
+        }
+        .notes-accordion-button {
+            background-color: #1f1c4b;
+            width: 100%;
+            text-align: left;
+            padding: 1.5rem 2rem;
+            color: #fafafa;
+            font-size: 1.125rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-radius: 1rem;
+            transition: background-color 0.5s var(--ease-out-quint);
+            border: 1px solid #3a367a;
+        }
+        .notes-accordion-button:hover {
+             background-color: #2a2664;
+        }
+        .notes-accordion-button.active + .notes-accordion-content {
+            max-height: 1000px;
+            padding-top: 1.75rem;
+            padding-bottom: 1.75rem;
+            border: 1px solid #3a367a;
+            border-top: none;
+        }
+        .notes-accordion-button .icon {
+            transition: transform 0.5s var(--ease-out-quint);
+        }
+        .notes-accordion-button.active .icon {
+            transform: rotate(180deg);
+        }
+
+        .header-bg {
+            background-image: url('https://placehold.co/1920x1080/0c0c1f/18153f.png?text=Mikasa+Studio&font=poppins&color=f3f4f6');
+            background-size: cover;
+            background-position: center center;
+            /* background-attachment: fixed; は削除 */
+            will-change: background-position; /* パララックス効果のための指定 */
+        }
+        .header-overlay {
+            background-color: rgba(12, 12, 31, 0.65);
+        }
+
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.9s var(--ease-out-quint), transform 0.9s var(--ease-out-quint);
+            will-change: opacity, transform;
+        }
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .contact-section {
+            background-color: #131133;
+        }
+        .qr-code-image {
+            border: 2px solid #3a367a;
+            padding: 5px;
+            background-color: #18153f;
+        }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <header class="py-24 md:py-36 header-bg">
+        <div class="header-overlay">
+            <div class="container mx-auto px-6 text-center py-12">
+                <div class="mb-8 animate-on-scroll">
+                    <h2 class="text-5xl md:text-6xl font-bold title-font text-white">Mikasa Studio</h2>
+                </div>
+                <h1 class="text-6xl md:text-7xl font-bold title-font mb-10 animate-on-scroll" style="transition-delay: 0.1s; line-height: 1.2;">
+                    <span class="gradient-text">歌ってみたMIX<br>料金表</span>
+                </h1>
+                <p class="text-2xl md:text-3xl text-gray-200 mb-12 animate-on-scroll" style="transition-delay: 0.2s;">あなたの歌声をプロクオリティに！MIX料金プラン</p>
+                <p class="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed animate-on-scroll" style="transition-delay: 0.3s;">
+                    「500曲以上の実績！高品質MIXをお届けします」<br>
+                    「プロユース機材であなたの歌声を最高のサウンドに」
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-20 md:py-28">
+
+        <section id="plans" class="mb-28">
+            <div class="center-section-title-wrapper animate-on-scroll">
+                <h2 class="section-title">料金プラン</h2>
+            </div>
+            <div class="grid md:grid-cols-2 gap-12 lg:gap-16">
+                <div class="card p-10 lg:p-12 flex flex-col animate-on-scroll">
+                    <i class="fas fa-microphone-alt text-6xl text-[#a855f7] mb-8 self-start"></i>
+                    <h3 class="text-3xl lg:text-4xl font-bold title-font mb-6 text-white">スタンダードプラン</h3>
+                    <p class="text-5xl lg:text-6xl font-bold title-font mb-12 gradient-text">6,000<span class="text-2xl text-gray-400">円</span></p>
+                    <ul class="space-y-4 mb-12 text-gray-300 flex-grow text-lg">
+                        <li><i class="fas fa-check-circle text-green-400 mr-3"></i>基本MIX (EQ, Comp, Reverb, Delay等)</li>
+                        <li><i class="fas fa-check-circle text-green-400 mr-3"></i>軽微なピッチ補正</li>
+                        <li><i class="fas fa-check-circle text-green-400 mr-3"></i>軽微なタイミング補正</li>
+                        <li><i class="fas fa-check-circle text-green-400 mr-3"></i>簡易マスタリング</li>
+                        <li><i class="fas fa-check-circle text-green-400 mr-3"></i>無料修正1回</li>
+                    </ul>
+                    <p class="bg-[#a855f7] bg-opacity-10 text-[#d8b4fe] p-5 rounded-lg text-md mb-12">
+                        <i class="fas fa-lightbulb mr-2 text-[#d8b4fe]"></i>こんな方におすすめ：「手軽にクオリティアップしたい！」
+                    </p>
+                    <a href="#contact" class="btn-primary mt-auto">このプランで相談する</a>
+                </div>
+
+                <div class="card p-10 lg:p-12 flex flex-col border-2 border-[#f472b6] animate-on-scroll" style="transition-delay: 0.15s;">
+                    <i class="fas fa-headphones-alt text-6xl text-[#f472b6] mb-8 self-start"></i>
+                    <h3 class="text-3xl lg:text-4xl font-bold title-font mb-6 text-white">クオリティ重視プラン</h3>
+                    <p class="text-5xl lg:text-6xl font-bold title-font mb-12 gradient-text">12,000<span class="text-2xl text-gray-400">円</span></p>
+                    <ul class="space-y-4 mb-12 text-gray-300 flex-grow text-lg">
+                        <li><i class="fas fa-star text-yellow-400 mr-3"></i>丁寧なヒアリング</li>
+                        <li><i class="fas fa-star text-yellow-400 mr-3"></i>詳細なピッチ＆タイミング補正</li>
+                        <li><i class="fas fa-star text-yellow-400 mr-3"></i>積極的な音作り (UAD/SSLプラグイン使用)</li>
+                        <li><i class="fas fa-star text-yellow-400 mr-3"></i>RL904での最終チェック</li>
+                        <li><i class="fas fa-star text-yellow-400 mr-3"></i>本格マスタリング (ラウドネス調整)</li>
+                        <li><i class="fas fa-star text-yellow-400 mr-3"></i>無料修正2回</li>
+                    </ul>
+                    <p class="bg-[#f472b6] bg-opacity-10 text-[#fda4af] p-5 rounded-lg text-md mb-12">
+                        <i class="fas fa-rocket mr-2 text-[#fda4af]"></i>こんな方におすすめ：「プロレベルの本格サウンドを追求したい！」
+                    </p>
+                    <a href="#contact" class="btn-primary mt-auto">このプランで相談する</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="options" class="mb-28">
+            <div class="center-section-title-wrapper animate-on-scroll">
+                <h2 class="section-title">オプション料金</h2>
+            </div>
+            <div class="max-w-3xl mx-auto space-y-5">
+                <div class="option-accordion-item animate-on-scroll" style="transition-delay: 0.0s;">
+                    <button class="option-accordion-button">
+                        <span class="option-title-container">
+                            <i class="fas fa-magic"></i>
+                            <span>ピッチ補正（Auto-Tune等 加工系）</span>
+                        </span>
+                        <span class="option-price-display">+2,000円</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="option-accordion-content">
+                        <p>Auto-TuneやMelodyne等を使用し、より積極的なボーカル加工やケロケロボイスなど、ご要望に応じたピッチ補正を行います。</p>
+                    </div>
+                </div>
+                <div class="option-accordion-item animate-on-scroll" style="transition-delay: 0.08s;">
+                    <button class="option-accordion-button">
+                        <span class="option-title-container">
+                            <i class="fas fa-microphone-lines"></i>
+                            <span>ハモリパート生成（1トラックにつき）</span>
+                        </span>
+                        <span class="option-price-display">+2,000円</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="option-accordion-content">
+                        <p>メインボーカルから自然なハモリパートを生成します。3度上、5度下など、楽曲に合わせて調整可能です。</p>
+                    </div>
+                </div>
+                 <div class="option-accordion-item animate-on-scroll" style="transition-delay: 0.16s;">
+                    <button class="option-accordion-button">
+                        <span class="option-title-container">
+                            <i class="fas fa-wave-square"></i>
+                            <span>大幅なタイミング補正・リズム修正</span>
+                        </span>
+                        <span class="option-price-display">+3,000円</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="option-accordion-content">
+                        <p>歌唱全体のタイミングのズレやリズムのヨレを、楽曲のグルーヴに合わせて細かく丁寧に修正します。</p>
+                    </div>
+                </div>
+                <div class="option-accordion-item animate-on-scroll" style="transition-delay: 0.24s;">
+                    <button class="option-accordion-button">
+                        <span class="option-title-container">
+                            <i class="fas fa-wind"></i>
+                            <span>過度なノイズ除去</span>
+                        </span>
+                        <span class="option-price-display">+1,000円</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="option-accordion-content">
+                        <p>エアコンの音、リップノイズ、環境音など、通常処理では除去しきれない目立つノイズを専門ツールで丁寧に除去します。</p>
+                    </div>
+                </div>
+                <div class="option-accordion-item animate-on-scroll" style="transition-delay: 0.32s;">
+                    <button class="option-accordion-button">
+                        <span class="option-title-container">
+                            <i class="fas fa-bolt"></i>
+                            <span>お急ぎ納品（2日以内）</span>
+                        </span>
+                        <span class="option-price-display">+3,000円</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="option-accordion-content">
+                        <p>ご依頼確定・素材受領後、2営業日以内に納品します。スケジュールの状況によりお受けできない場合もございますので、事前にお問い合わせください。</p>
+                    </div>
+                </div>
+                <div class="option-accordion-item animate-on-scroll" style="transition-delay: 0.40s;">
+                    <button class="option-accordion-button">
+                        <span class="option-title-container">
+                            <i class="fas fa-history"></i>
+                            <span>追加修正（1回につき）</span>
+                        </span>
+                        <span class="option-price-display">+1,000円</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="option-accordion-content">
+                        <p>各プランに規定された無料修正回数を超過した場合の追加修正料金です。修正内容によって料金が変動する場合がございます。</p>
+                    </div>
+                </div>
+                <div class="option-accordion-item animate-on-scroll" style="transition-delay: 0.48s;">
+                    <button class="option-accordion-button">
+                        <span class="option-title-container">
+                            <i class="fas fa-file-audio"></i>
+                            <span>パラデータ納品（ステムデータ）</span>
+                        </span>
+                        <span class="option-price-display">+2,000円</span>
+                        <i class="fas fa-chevron-down icon"></i>
+                    </button>
+                    <div class="option-accordion-content">
+                        <p>ボーカル、コーラス、主要楽器群など、トラックをある程度まとめたステムデータ（WAV形式）での納品です。ライブでの使用やご自身での再MIXなどに活用できます。</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="notes" class="mb-28">
+            <div class="center-section-title-wrapper animate-on-scroll">
+                <h2 class="section-title">注意事項・補足</h2>
+            </div>
+            <div class="max-w-3xl mx-auto animate-on-scroll">
+                <button class="notes-accordion-button">
+                    <span class="text-xl font-semibold text-white">詳細はこちら</span>
+                    <i class="fas fa-chevron-down icon text-white text-xl"></i>
+                </button>
+                <div class="notes-accordion-content px-8 md:px-10 pb-8 text-gray-300">
+                    <ul class="space-y-5 mt-6 text-lg">
+                        <li><i class="fas fa-info-circle text-sky-400 mr-3"></i>表示価格は全て税込みです。（または「税抜きです」など、適宜変更してください）</li>
+                        <li><i class="fas fa-info-circle text-sky-400 mr-3"></i>お見積もりは無料です。お気軽にご相談ください。</li>
+                        <li><i class="fas fa-info-circle text-sky-400 mr-3"></i>納期目安：通常X日～Y日程度（プランや状況により変動します。具体的な日数を記載してください）</li>
+                        <li><i class="fas fa-info-circle text-sky-400 mr-3"></i>ご依頼はDMまたはウェブサイトからお願いします。</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="contact-section rounded-2xl shadow-2xl p-12 md:p-20 animate-on-scroll">
+             <div class="center-section-title-wrapper">
+                <h2 class="section-title">お問い合わせ</h2>
+            </div>
+            <div class="text-center text-gray-200">
+                <p class="text-xl mb-12">ご依頼、ご相談は下記よりお気軽にご連絡ください。</p>
+                <div class="flex flex-wrap justify-center gap-8 md:gap-10">
+                    <a href="https://twitter.com/YOUR_X_ACCOUNT" target="_blank" rel="noopener noreferrer" class="btn-primary flex items-center">
+                        <i class="fab fa-twitter mr-3"></i> X (Twitter)
+                    </a>
+                    <a href="YOUR_WEBSITE_URL" target="_blank" rel="noopener noreferrer" class="btn-primary flex items-center">
+                        <i class="fas fa-globe mr-3"></i> ウェブサイト
+                    </a>
+                    <a href="mailto:YOUR_EMAIL_ADDRESS" class="btn-primary flex items-center">
+                        <i class="fas fa-envelope mr-3"></i> メール
+                    </a>
+                </div>
+                <div class="mt-20">
+                    <p class="mb-8 text-gray-300 text-lg">LINEやその他連絡先用のQRコード:</p>
+                    <img src="https://placehold.co/200x200/18153f/f3f4f6.png?text=QR+Code&font=noto+sans" alt="QRコード" class="mx-auto rounded-xl shadow-lg qr-code-image"
+                         onerror="this.onerror=null; this.src='https://placehold.co/200x200/18153f/f3f4f6.png?text=QR+Error&font=noto+sans';">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="text-center py-16 mt-24 border-t-2 border-[#312e6b]">
+        <p class="text-gray-500">&copy; <span id="currentYear"></span> Mikasa Studio. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // ヘッダーのパララックス効果を再度有効化
+        const headerBg = document.querySelector('.header-bg');
+        if (headerBg) { // headerBg要素が存在する場合のみ実行
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.pageYOffset;
+                headerBg.style.backgroundPositionY = scrollPosition * 0.4 + 'px';
+            });
+        }
+
+
+        function setupAccordion(buttonClass, contentClass) {
+            const accordionButtons = document.querySelectorAll('.' + buttonClass);
+            accordionButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    button.classList.toggle('active');
+                    const content = button.nextElementSibling;
+                    if (button.classList.contains('active')) {
+                        content.style.maxHeight = content.scrollHeight + "px";
+                        if (buttonClass === 'option-accordion-button' || buttonClass === 'notes-accordion-button') {
+                            content.style.paddingTop = "1.75rem";
+                            content.style.paddingBottom = "1.75rem";
+                        }
+                    } else {
+                        content.style.maxHeight = null;
+                        if (buttonClass === 'option-accordion-button' || buttonClass === 'notes-accordion-button') {
+                            content.style.paddingTop = "0";
+                            content.style.paddingBottom = "0";
+                        }
+                    }
+                });
+            });
+        }
+
+        setupAccordion('option-accordion-button', 'option-accordion-content');
+        setupAccordion('notes-accordion-button', 'notes-accordion-content');
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        const animatedElements = document.querySelectorAll('.animate-on-scroll');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                } else {
+                    // entry.target.classList.remove('is-visible');
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        animatedElements.forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
